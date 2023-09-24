@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1063798082411",
+    "project_id": "memperio-52d1f",
+    "storage_bucket": "memperio-52d1f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1063798082411:android:0f0e077f8530939352da2e",
+        "android_client_info": {
+          "package_name": "com.example.memperio"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0YDGN277vB-jEgitx0cS4uKc4hJ-oQ1I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
