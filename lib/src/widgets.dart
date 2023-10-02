@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class Header extends StatelessWidget {
   const Header(
@@ -63,4 +64,68 @@ class StyledButton extends StatelessWidget {
         onPressed: onPressed,
         child: child,
       );
+}
+
+class StyledCircularPercentIndicator extends StatelessWidget {
+  const StyledCircularPercentIndicator(
+      {required this.text, required this.percent, super.key});
+  final String text;
+  final double percent;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: CircularPercentIndicator(
+        radius: 80,
+        lineWidth: 10,
+        progressColor: Colors.deepPurple,
+        percent: percent,
+        circularStrokeCap: CircularStrokeCap.round,
+        center: Text(
+          text,
+          style: const TextStyle(
+            color: Colors.deepPurple,
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class LearnCategoryButton extends StatelessWidget {
+  const LearnCategoryButton(
+      {required this.text, required this.icon, super.key});
+
+  final String text;
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+        onPressed: () {},
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Icon(
+                icon,
+                size: 48,
+              ),
+              Text(text),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
