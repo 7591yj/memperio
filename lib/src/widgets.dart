@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 
 class Header extends StatelessWidget {
-  const Header(this.heading, {super.key});
+  const Header(
+    this.heading, {
+    super.key,
+    this.textStyle = const TextStyle(fontSize: 24),
+  });
   final String heading;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.all(8.0),
         child: Text(
           heading,
-          style: const TextStyle(fontSize: 24),
+          style: textStyle,
         ),
       );
 }

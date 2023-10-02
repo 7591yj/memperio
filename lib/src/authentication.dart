@@ -150,8 +150,6 @@ class _DDayViewer extends State<DDayViewer> {
                     differenceFromToday = differenceCalcFromToday();
                   },
                 );
-                print(differenceFromSelectedDate);
-                print(differenceFromToday);
               },
               child: const Text('원하는 D-Day를 선택해주세요.'),
             ),
