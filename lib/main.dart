@@ -2,6 +2,7 @@ import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:memperio/src/learn.dart';
+import 'package:memperio/src/report.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -87,9 +88,15 @@ final _router = GoRouter(
           },
         ),
         GoRoute(
-            path: 'learn',
+          path: 'learn',
+          builder: (context, state) {
+            return const LearnPage();
+          },
+        ),
+        GoRoute(
+            path: 'report',
             builder: (context, state) {
-              return const LearnPage();
+              return const ReportPage();
             })
       ],
     ),
