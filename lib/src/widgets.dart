@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:go_router/go_router.dart';
 
 class Header extends StatelessWidget {
   const Header(
@@ -96,11 +97,16 @@ class StyledCircularPercentIndicator extends StatelessWidget {
 }
 
 class LearnCategoryButton extends StatelessWidget {
-  const LearnCategoryButton(
-      {required this.text, required this.icon, super.key});
+  const LearnCategoryButton({
+    super.key,
+    required this.text,
+    required this.icon,
+    required this.route,
+  });
 
   final String text;
   final IconData icon;
+  final String route;
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +118,9 @@ class LearnCategoryButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
         ),
-        onPressed: () {},
+        onPressed: () {
+          context.push('/$route');
+        },
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
