@@ -79,7 +79,7 @@ class StyledCircularPercentIndicator extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: CircularPercentIndicator(
         radius: 80,
-        lineWidth: 10,
+        lineWidth: 15,
         progressColor: Colors.deepPurple,
         percent: percent,
         circularStrokeCap: CircularStrokeCap.round,
@@ -119,7 +119,7 @@ class LearnCategoryButton extends StatelessWidget {
           ),
         ),
         onPressed: () {
-          context.push('/$route');
+          context.push('/learn/$route');
         },
         child: Padding(
           padding: const EdgeInsets.all(8.0),

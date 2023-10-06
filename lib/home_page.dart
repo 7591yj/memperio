@@ -161,17 +161,17 @@ class HomePage extends StatelessWidget {
                                   LearnCategoryButton(
                                     text: '화학식 배수',
                                     icon: Icons.abc,
-                                    route: '/learn/1',
+                                    route: '1',
                                   ),
                                   LearnCategoryButton(
                                     text: '이온화 에너지',
                                     icon: Icons.abc,
-                                    route: '/learn/2',
+                                    route: '2',
                                   ),
                                   LearnCategoryButton(
                                     text: '분자의 몰수',
                                     icon: Icons.abc,
-                                    route: '/learn/3',
+                                    route: '3',
                                   ),
                                 ],
                               ),
