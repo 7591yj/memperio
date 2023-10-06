@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:memperio/src/widgets.dart';
-import 'package:memperio/app_state.dart';
 
 import 'package:memperio/app_state.dart' as app_state;
 
@@ -29,8 +28,7 @@ class _LearnPage extends State<LearnPage> {
               padding: const EdgeInsets.only(bottom: 20),
               child: TextField(
                 decoration: const InputDecoration(
-                  icon: Icon(Icons.search_rounded),
-                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.search_rounded),
                 ),
                 onChanged: (value) {
                   setState(() {
