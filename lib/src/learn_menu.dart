@@ -18,6 +18,7 @@ class _LearnPage extends State<LearnPage> {
   String searchText = '';
   List<LearnCategory> categories = app_state.categories;
   late Set<String> tagsAll = {};
+  int? selectedTagIndex;
   String? selectedTag;
 
   @override
@@ -65,14 +66,16 @@ class _LearnPage extends State<LearnPage> {
                       inactiveBgColor: Colors.deepPurple.shade50,
                       inactiveFgColor: Colors.deepPurple,
                       activeBgColor: const [Colors.deepPurple],
-                      initialLabelIndex: null,
+                      initialLabelIndex: selectedTagIndex,
                       doubleTapDisable: true,
                       totalSwitches: tagsAll.length,
                       labels: tagsAll.toList(),
                       onToggle: (index) {
                         try {
-                          selectedTag = tagsAll.toList()[index!];
+                          selectedTagIndex = index!;
+                          selectedTag = tagsAll.toList()[index];
                         } catch (e) {
+                          selectedTagIndex = null;
                           selectedTag = null;
                         }
                       },
@@ -89,11 +92,7 @@ class _LearnPage extends State<LearnPage> {
                       !categories[index]
                           .name
                           .toLowerCase()
-                          .contains(searchText.toLowerCase()) &&
-                      !categories[index].tag.contains(selectedTag)) {
-                    print(categories[index].tag);
-                    print(categories[index].tag.contains(selectedTag));
-                    print(selectedTag);
+                          .contains(searchText.toLowerCase())) {
                     return const SizedBox.shrink();
                   } else {
                     return Padding(
