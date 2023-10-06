@@ -43,6 +43,7 @@ dependencies:
   go_router: ^11.0.0
   google_fonts: ^6.1.0
   percent_indicator: ^4.2.3
+  toggle_switch: ^2.1.0
 
 dev_dependencies:
   flutter_test:
