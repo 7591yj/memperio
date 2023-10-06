@@ -43,13 +43,22 @@ class _LearnPage extends State<LearnPage> {
               child: ListView.builder(
                 itemCount: app_state.categories.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4.0),
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: Text(app_state.categories[index].name),
-                    ),
-                  );
+                  if (searchText.isNotEmpty &&
+                      !app_state.categories[index].name
+                          .toLowerCase()
+                          .contains(searchText.toLowerCase())) {
+                    return const SizedBox.shrink();
+                  } else {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        child: Text(
+                          app_state.categories[index].name,
+                        ),
+                      ),
+                    );
+                  }
                 },
               ),
             ),
