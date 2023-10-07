@@ -9,9 +9,15 @@ import 'app_state.dart';
 import 'package:memperio/app_state.dart' as app_state;
 import 'src/authentication.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({super.key});
-  final List<LearnCategory> categories = app_state.categories;
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  List<LearnCategory> categories = app_state.categories;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +60,7 @@ class HomePage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const StyledContainer(
+                  StyledContainer(
                     title: '학습',
                     titleIcon: Icons.edit_document,
                     route: '/learn',
@@ -63,21 +69,13 @@ class HomePage extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          LearnCategoryButton(
-                            text: '화학식 배수',
-                            icon: Icons.abc,
-                            route: '1',
-                          ),
-                          LearnCategoryButton(
-                            text: '이온화 에너지',
-                            icon: Icons.abc,
-                            route: '2',
-                          ),
-                          LearnCategoryButton(
-                            text: '분자의 몰수',
-                            icon: Icons.abc,
-                            route: '3',
-                          ),
+                          for (int i = 0; i < categories.length; i++) ...[
+                            LearnCategoryButton(
+                              text: categories[i].name,
+                              icon: Icons.abc,
+                              route: '$i',
+                            )
+                          ],
                         ],
                       ),
                     ),
