@@ -1,20 +1,17 @@
-import 'dart:ui_web';
-
 import 'package:flutter/material.dart';
 import 'package:memperio/src/learn_category.dart';
-import 'package:memperio/src/widgets.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 import 'package:memperio/app_state.dart' as app_state;
 
-class LearnPage extends StatefulWidget {
-  const LearnPage({super.key});
+class LearnMenu extends StatefulWidget {
+  const LearnMenu({super.key});
 
   @override
-  State<LearnPage> createState() => _LearnPage();
+  State<LearnMenu> createState() => _LearnMenu();
 }
 
-class _LearnPage extends State<LearnPage> {
+class _LearnMenu extends State<LearnMenu> {
   String searchText = '';
   List<LearnCategory> categories = app_state.categories;
   late Set<String> tagsAll = {};
