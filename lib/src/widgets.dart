@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:go_router/go_router.dart';
@@ -96,17 +98,29 @@ class StyledCircularPercentIndicator extends StatelessWidget {
   }
 }
 
-class LearnCategoryButton extends StatelessWidget {
+class LearnCategoryButton extends StatefulWidget {
   const LearnCategoryButton({
     super.key,
-    required this.text,
+    required this.name,
     required this.icon,
-    required this.route,
+    required this.tag,
+    required this.id,
   });
 
-  final String text;
+  final String name;
+  final List<dynamic> tag;
   final IconData icon;
-  final String route;
+  final int id;
+
+  @override
+  State<LearnCategoryButton> createState() => _LearnCategoryButtonState();
+}
+
+class _LearnCategoryButtonState extends State<LearnCategoryButton> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,17 +133,21 @@ class LearnCategoryButton extends StatelessWidget {
           ),
         ),
         onPressed: () {
-          context.push('/learn/$route');
+          context.pushNamed('sub', pathParameters: {
+            'id': widget.id.toString(),
+            'name': widget.name,
+            'tag': widget.tag.join(','),
+          });
         },
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
               Icon(
-                icon,
+                widget.icon,
                 size: 48,
               ),
-              Text(text),
+              Text(widget.name),
             ],
           ),
         ),

@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:memperio/src/learn_category.dart';
-import 'package:memperio/app_state.dart' as app_state;
 
 class LearnPage extends StatefulWidget {
-  const LearnPage(this.index, {super.key});
-  final int index;
+  const LearnPage({this.id, this.name, this.tag, super.key});
+  final String? id;
+  final String? name;
+  final String? tag;
 
   @override
   State<LearnPage> createState() => _LearnPageState();
 }
 
 class _LearnPageState extends State<LearnPage> {
-  LearnCategory category = LearnCategory(name: 'tmp', tag: []);
+  var tagList = [];
 
   @override
   void initState() {
-    category = app_state.categories[widget.index];
+    tagList = widget.tag!.split(',');
     super.initState();
   }
 
@@ -24,10 +24,37 @@ class _LearnPageState extends State<LearnPage> {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
-        title: Text(category.name),
+        title: Text(widget.name!),
       ),
-      body: Row(
-        children: [Text(widget.index.toString())],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+        child: Row(
+          children: [
+            for (String tag in tagList) ...[
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 4.0,
+                  vertical: 8.0,
+                ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.deepPurple,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      tag,
+                      style: const TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ]
+          ],
+        ),
       ),
     );
   }

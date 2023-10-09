@@ -1,9 +1,8 @@
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:memperio/src/learn_category.dart';
-import 'package:memperio/src/learn_menu.dart';
-import 'package:memperio/src/learn_page.dart';
+import 'package:memperio/src/learn/learn_menu.dart';
+import 'package:memperio/src/learn/learn_page.dart';
 import 'package:memperio/src/report.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,7 +10,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 import 'app_state.dart';
-import 'package:memperio/app_state.dart' as app_state;
 import 'home_page.dart';
 
 Future<void> main() async {
@@ -21,7 +19,7 @@ Future<void> main() async {
   );
   runApp(ChangeNotifierProvider(
     create: (context) => ApplicationState(),
-    builder: ((context, child) => App()),
+    builder: ((context, child) => const App()),
   ));
 }
 
@@ -94,26 +92,24 @@ final _router = GoRouter(
           },
         ),
         GoRoute(
-            path: 'learn',
-            builder: (context, state) {
-              return const LearnMenu();
-            },
-            routes: [
-              // TEMP, FOR TESTING ONLY
-              GoRoute(
-                  path: '0',
-                  builder: (context, state) {
-                    return const LearnPage(0);
-                  }),
-              // TODO: MAKE THIS THING WORK!
-              for (int i = 0; i < categories.length; i++) ...[
-                GoRoute(
-                    path: '$i',
-                    builder: (context, state) {
-                      return LearnPage(i);
-                    })
-              ]
-            ]),
+          path: 'learn',
+          builder: (context, state) {
+            return const LearnMenu();
+          },
+          routes: [
+            // TEMP, FOR TESTING ONLY
+            GoRoute(
+                path: 'sub/:id/:name/:tag',
+                name: 'sub',
+                builder: (context, state) {
+                  return LearnPage(
+                    id: state.pathParameters['id'],
+                    name: state.pathParameters['name'],
+                    tag: state.pathParameters['tag'],
+                  );
+                })
+          ],
+        ),
         GoRoute(
             path: 'report',
             builder: (context, state) {
@@ -125,8 +121,7 @@ final _router = GoRouter(
 );
 
 class App extends StatelessWidget {
-  App({super.key});
-  final List<LearnCategory> categories = app_state.categories;
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {

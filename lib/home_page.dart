@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart'
     hide EmailAuthProvider, PhoneAuthProvider;
 import 'package:flutter/material.dart';
-import 'package:memperio/src/learn_category.dart';
+import 'package:memperio/src/learn/learn_category.dart';
 import 'package:memperio/src/widgets.dart';
 import 'package:provider/provider.dart';
 
@@ -71,9 +71,10 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           for (int i = 0; i < categories.length; i++) ...[
                             LearnCategoryButton(
-                              text: categories[i].name,
+                              name: categories[i].name,
+                              tag: categories[i].tag,
                               icon: Icons.abc,
-                              route: '$i',
+                              id: i,
                             )
                           ],
                         ],

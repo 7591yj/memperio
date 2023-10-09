@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:memperio/src/learn_category.dart';
+import 'package:go_router/go_router.dart';
+import 'package:memperio/src/learn/learn_category.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 import 'package:memperio/app_state.dart' as app_state;
@@ -99,7 +100,13 @@ class _LearnMenu extends State<LearnMenu> {
                             shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         )),
-                        onPressed: () {},
+                        onPressed: () {
+                          context.pushNamed('sub', pathParameters: {
+                            'id': index.toString(),
+                            'name': categories[index].name,
+                            'tag': categories[index].tag.join(','),
+                          });
+                        },
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
