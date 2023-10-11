@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:go_router/go_router.dart';
@@ -161,12 +159,14 @@ class StyledContainer extends StatelessWidget {
     super.key,
     required this.title,
     required this.titleIcon,
+    required this.subButtonEnable,
     required this.route,
     required this.content,
   });
 
   final String title;
   final IconData titleIcon;
+  final bool subButtonEnable;
   final String route;
   final Widget content;
 
@@ -183,36 +183,35 @@ class StyledContainer extends StatelessWidget {
           padding: const EdgeInsets.all(30),
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          titleIcon,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        titleIcon,
+                        color: Colors.deepPurple,
+                        size: 28,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        title,
+                        style: const TextStyle(
                           color: Colors.deepPurple,
-                          size: 28,
+                          fontSize: 18,
                         ),
-                        const SizedBox(width: 8),
-                        Text(
-                          title,
-                          style: const TextStyle(
-                            color: Colors.deepPurple,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
+                  ),
+                  if (subButtonEnable) ...[
                     StyledButton(
                       child: const Text('더보기'),
                       onPressed: () {
                         context.push(route);
                       },
                     )
-                  ],
-                ),
+                  ]
+                ],
               ),
               const SizedBox(
                 height: 15,

@@ -2,6 +2,7 @@ import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:memperio/src/learn/learn_menu.dart';
+import 'package:memperio/src/learn/learn_menu_sub.dart';
 import 'package:memperio/src/learn/learn_page.dart';
 import 'package:memperio/src/report.dart';
 import 'package:provider/provider.dart';
@@ -97,17 +98,25 @@ final _router = GoRouter(
             return const LearnMenu();
           },
           routes: [
-            // TEMP, FOR TESTING ONLY
             GoRoute(
                 path: 'sub/:id/:name/:tag',
                 name: 'sub',
                 builder: (context, state) {
-                  return LearnPage(
+                  return LearnMenuSub(
                     id: state.pathParameters['id'],
                     name: state.pathParameters['name'],
                     tag: state.pathParameters['tag'],
                   );
-                })
+                }),
+            GoRoute(
+                path: 'page/:id/:howMuch',
+                name: 'learn-page',
+                builder: (context, state) {
+                  return LearnPage(
+                    id: state.pathParameters['id'],
+                    howMuch: state.pathParameters['howMuch'],
+                  );
+                }),
           ],
         ),
         GoRoute(

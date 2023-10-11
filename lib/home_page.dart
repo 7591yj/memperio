@@ -42,6 +42,7 @@ class _HomePageState extends State<HomePage> {
                   const StyledContainer(
                     title: '리포트',
                     titleIcon: Icons.workspace_premium_rounded,
+                    subButtonEnable: true,
                     route: '/report',
                     content: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -63,6 +64,7 @@ class _HomePageState extends State<HomePage> {
                   StyledContainer(
                     title: '학습',
                     titleIcon: Icons.edit_document,
+                    subButtonEnable: true,
                     route: '/learn',
                     content: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
