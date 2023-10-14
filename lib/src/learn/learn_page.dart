@@ -1,7 +1,10 @@
+import 'dart:html';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:memperio/src/learn/problem.dart';
+import 'package:memperio/src/widgets.dart';
 
 class LearnPage extends StatefulWidget {
   const LearnPage({this.id, this.howMuch, super.key});
@@ -16,18 +19,13 @@ class _LearnPageState extends State<LearnPage> {
   var db = FirebaseFirestore.instance;
   int howMuch = 1;
   int random = Random().nextInt(4294967295);
-  // List<Problem> problems = [];
 
   Future<List<Problem>> getProblemsFromDB() async {
     List<Problem> probList = [];
-    await db
-        .collection("learn/${widget.id}/q")
-        .where("random", isGreaterThanOrEqualTo: random)
-        .orderBy("random")
-        .limit(howMuch)
-        .get()
-        .then((querySnapshot) async {
-      for (var docSnapshot in querySnapshot.docs) {
+
+    void addToProbList(
+        List<QueryDocumentSnapshot<Map<String, dynamic>>> querySnapshotDocs) {
+      for (var docSnapshot in querySnapshotDocs) {
         var data = docSnapshot.data();
         probList.add(Problem(
           content: data['content'],
@@ -36,6 +34,16 @@ class _LearnPageState extends State<LearnPage> {
           year: data['year'],
         ));
       }
+    }
+
+    await db
+        .collection("learn/${widget.id}/q")
+        .where("random", isGreaterThanOrEqualTo: random)
+        .orderBy("random")
+        .limit(howMuch)
+        .get()
+        .then((querySnapshot) {
+      addToProbList(querySnapshot.docs);
     }).catchError((err) {});
     if (probList.isEmpty) {
       await db
@@ -45,17 +53,10 @@ class _LearnPageState extends State<LearnPage> {
           .limit(howMuch)
           .get()
           .then((querySnapshot) {
-        for (var docSnapshot in querySnapshot.docs) {
-          var data = docSnapshot.data();
-          probList.add(Problem(
-            content: data['content'],
-            answer: data['answer'],
-            from: data['from'],
-            year: data['year'],
-          ));
-        }
+        addToProbList(querySnapshot.docs);
       }).catchError((err) {});
     }
+
     return probList;
   }
 
@@ -71,36 +72,51 @@ class _LearnPageState extends State<LearnPage> {
     return Scaffold(
       body: Column(
         children: [
-          Text(random.toString()),
           FutureBuilder(
-              future: problems,
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return const CircularProgressIndicator();
-                }
-                snapshot.data![0].printer();
-                return Text(snapshot.data![0].content);
-              })
+            future: problems,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return const CircularProgressIndicator();
+              }
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(30.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.deepPurple.shade50,
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          children: [
+                            for (var data in snapshot.data!) ...[
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [Text(data.from), Text(data.year)],
+                              ),
+                              Header(
+                                data.content,
+                                textStyle: const TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.deepPurple,
+                                ),
+                              ),
+                              const TextField()
+                            ],
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
         ],
       ),
     );
-  }
-}
-
-class Problem {
-  String content;
-  String answer;
-  String from;
-  String year;
-
-  Problem({
-    this.content = 'temp',
-    this.answer = 'temp',
-    this.from = 'temp',
-    this.year = 'temp',
-  });
-
-  void printer() {
-    print(content + answer + from + year);
   }
 }
