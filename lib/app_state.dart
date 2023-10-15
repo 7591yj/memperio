@@ -36,7 +36,6 @@ class ApplicationState extends ChangeNotifier {
               ));
             }
           },
-          onError: (e) => print("Error completing: $e"),
         );
         notifyListeners();
       } else {

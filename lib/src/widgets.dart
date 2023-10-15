@@ -224,3 +224,37 @@ class StyledContainer extends StatelessWidget {
     );
   }
 }
+
+class TagContainer extends StatelessWidget {
+  const TagContainer({
+    super.key,
+    required this.tag,
+  });
+
+  final String tag;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 15,
+        vertical: 8,
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.deepPurple,
+          borderRadius: BorderRadius.circular(24),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            tag,
+            style: const TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

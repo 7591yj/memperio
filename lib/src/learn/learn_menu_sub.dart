@@ -41,29 +41,7 @@ class _LearnMenuSubState extends State<LearnMenuSub> {
         children: [
           Row(
             children: [
-              for (String tag in tagList) ...[
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 15,
-                    vertical: 8,
-                  ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.deepPurple,
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        tag,
-                        style: const TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              ]
+              for (String tag in tagList) ...[TagContainer(tag: tag)]
             ],
           ),
           StyledContainer(

@@ -27,8 +27,6 @@ class _LearnMenu extends State<LearnMenu> {
         tagsAll.add(categories[i].tag[j]);
       }
     }
-    // TODO: Fix issue where sometimes categories.length randomly grows into large number
-    print(categories.length);
     super.initState();
   }
 

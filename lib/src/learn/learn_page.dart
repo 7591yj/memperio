@@ -1,4 +1,3 @@
-import 'dart:html';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -18,6 +17,7 @@ class LearnPage extends StatefulWidget {
 class _LearnPageState extends State<LearnPage> {
   var db = FirebaseFirestore.instance;
   int howMuch = 1;
+  int progress = 0;
   int random = Random().nextInt(4294967295);
 
   Future<List<Problem>> getProblemsFromDB() async {
@@ -82,33 +82,50 @@ class _LearnPageState extends State<LearnPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(30.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.deepPurple.shade50,
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: Column(
-                          children: [
-                            for (var data in snapshot.data!) ...[
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [Text(data.from), Text(data.year)],
-                              ),
-                              Header(
-                                data.content,
-                                textStyle: const TextStyle(
-                                  fontSize: 24,
-                                  color: Colors.deepPurple,
-                                ),
-                              ),
-                              const TextField()
-                            ],
-                          ],
+                    child: Column(
+                      children: [
+                        const Text('진행도'),
+                        const SizedBox(height: 12),
+                        LinearProgressIndicator(
+                          value: progress / howMuch,
+                          color: Colors.deepPurple,
+                          borderRadius: BorderRadius.circular(24),
                         ),
-                      ),
+                        const SizedBox(height: 30),
+                        for (var data in snapshot.data!) ...[
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.deepPurple.shade50,
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: Column(
+                                children: [
+                                  Header(
+                                    data.content,
+                                    textStyle: const TextStyle(
+                                      fontSize: 24,
+                                      color: Colors.deepPurple,
+                                    ),
+                                  ),
+                                  const TextField(),
+                                  const SizedBox(height: 30),
+                                  StyledButton(
+                                      child: const Text('완료'), onPressed: () {})
+                                ],
+                              ),
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              TagContainer(tag: data.from),
+                              TagContainer(tag: data.year),
+                            ],
+                          ),
+                        ],
+                      ],
                     ),
                   ),
                 ],
