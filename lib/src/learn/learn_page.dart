@@ -6,7 +6,8 @@ import 'package:memperio/src/learn/problem.dart';
 import 'package:memperio/src/widgets.dart';
 
 class LearnPage extends StatefulWidget {
-  const LearnPage({this.id, this.howMuch, super.key});
+  const LearnPage({this.name, this.id, this.howMuch, super.key});
+  final String? name;
   final String? id;
   final String? howMuch;
 
@@ -70,6 +71,11 @@ class _LearnPageState extends State<LearnPage> {
   Widget build(BuildContext context) {
     Future<List<Problem>> problems = getProblemsFromDB();
     return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.name!),
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+      ),
       body: Column(
         children: [
           FutureBuilder(
@@ -84,12 +90,18 @@ class _LearnPageState extends State<LearnPage> {
                     padding: const EdgeInsets.all(30.0),
                     child: Column(
                       children: [
-                        const Text('진행도'),
-                        const SizedBox(height: 12),
-                        LinearProgressIndicator(
-                          value: progress / howMuch,
-                          color: Colors.deepPurple,
-                          borderRadius: BorderRadius.circular(24),
+                        Row(
+                          children: [
+                            const Text('진행도'),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: LinearProgressIndicator(
+                                value: progress / howMuch,
+                                color: Colors.deepPurple,
+                                borderRadius: BorderRadius.circular(24),
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 30),
                         for (var data in snapshot.data!) ...[
@@ -112,16 +124,18 @@ class _LearnPageState extends State<LearnPage> {
                                   const TextField(),
                                   const SizedBox(height: 30),
                                   StyledButton(
-                                      child: const Text('완료'), onPressed: () {})
+                                      child: const Text('완료'),
+                                      onPressed: () {}),
                                 ],
                               ),
                             ),
                           ),
+                          const SizedBox(height: 12),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              TagContainer(tag: data.from),
-                              TagContainer(tag: data.year),
+                              TagContainer(tag: "출제: ${data.from}"),
+                              TagContainer(tag: "년도: ${data.year}"),
                             ],
                           ),
                         ],

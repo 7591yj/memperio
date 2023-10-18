@@ -79,6 +79,7 @@ class _LearnMenuSubState extends State<LearnMenuSub> {
                           child: const Text('시작하기'),
                           onPressed: () {
                             context.pushNamed('learn-page', pathParameters: {
+                              'name': widget.name!,
                               'id': widget.id!,
                               'howMuch': howMuchProbs,
                             });

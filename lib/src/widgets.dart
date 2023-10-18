@@ -237,7 +237,7 @@ class TagContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
-        horizontal: 15,
+        horizontal: 8,
         vertical: 8,
       ),
       child: Container(
