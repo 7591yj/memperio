@@ -20,6 +20,7 @@ class _LearnPageState extends State<LearnPage> {
   int howMuch = 1;
   int progress = 0;
   int random = Random().nextInt(4294967295);
+  bool submitted = false;
 
   Future<List<Problem>> getProblemsFromDB() async {
     List<Problem> probList = [];
@@ -104,49 +105,113 @@ class _LearnPageState extends State<LearnPage> {
                           ],
                         ),
                         const SizedBox(height: 30),
-                        for (var data in snapshot.data!) ...[
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.deepPurple.shade50,
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(20),
-                              child: Column(
-                                children: [
-                                  Header(
-                                    data.content,
-                                    textStyle: const TextStyle(
-                                      fontSize: 24,
-                                      color: Colors.deepPurple,
-                                    ),
-                                  ),
-                                  const TextField(),
-                                  const SizedBox(height: 30),
-                                  StyledButton(
-                                      child: const Text('완료'),
-                                      onPressed: () {}),
-                                ],
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              TagContainer(tag: "출제: ${data.from}"),
-                              TagContainer(tag: "년도: ${data.year}"),
-                            ],
-                          ),
-                        ],
+                        ProblemContainer(data: snapshot.data!, currentIndex: 0),
                       ],
                     ),
                   ),
-                ],
+                ], // EndFor
               );
             },
           ),
         ],
+      ),
+    );
+  }
+}
+
+class ProblemContainer extends StatelessWidget {
+  const ProblemContainer({
+    super.key,
+    required this.data,
+    required this.currentIndex,
+  });
+
+  final List<Problem> data;
+  final int currentIndex;
+
+  void _showResultsScreen(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ResultsScreen(data: data),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.deepPurple.shade50,
+            borderRadius: BorderRadius.circular(25),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                Header(
+                  data[currentIndex].content,
+                  textStyle: const TextStyle(
+                    fontSize: 24,
+                    color: Colors.deepPurple,
+                  ),
+                ),
+                TextField(
+                  textInputAction: TextInputAction.go,
+                  onSubmitted: (value) async {
+                    if (currentIndex < data.length - 1) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProblemContainer(
+                            data: data,
+                            currentIndex: currentIndex + 1,
+                          ),
+                        ),
+                      );
+                    } else {
+                      _showResultsScreen(context);
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 12),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            TagContainer(tag: "출제: ${data[currentIndex].from}"),
+            TagContainer(tag: "년도: ${data[currentIndex].year}"),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class ResultsScreen extends StatelessWidget {
+  final List<Problem> data;
+
+  const ResultsScreen({super.key, required this.data});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Results Screen'),
+      ),
+      body: const Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('End of the list reached. Results:'),
+            // Display the final information or results here
+          ],
+        ),
       ),
     );
   }
