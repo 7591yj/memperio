@@ -39,51 +39,59 @@ class _LearnMenuSubState extends State<LearnMenuSub> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              for (String tag in tagList) ...[TagContainer(tag: tag)]
-            ],
-          ),
-          StyledContainer(
-            title: '원하는 문제 수를 입력해주세요.',
-            titleIcon: Icons.label_important_rounded,
-            subButtonEnable: false,
-            route: '',
-            content: Column(
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Column(
               children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        onChanged: (value) {
-                          howMuchProbs = value;
-                        },
-                        decoration: InputDecoration(
-                          labelText: '최소 1 ~ 최대 $size',
-                        ),
-                        keyboardType: TextInputType.number,
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.digitsOnly,
-                          LimitRange(1, size)
+                TagList(tagList: tagList),
+                StyledContainer(
+                  title: '원하는 문제 수를 입력해주세요.',
+                  titleIcon: Icons.label_important_rounded,
+                  subButtonEnable: false,
+                  route: '',
+                  content: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              onChanged: (value) {
+                                howMuchProbs = value;
+                              },
+                              decoration: InputDecoration(
+                                labelText: '최소 1 ~ 최대 $size',
+                              ),
+                              keyboardType: TextInputType.number,
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.digitsOnly,
+                                LimitRange(1, size)
+                              ],
+                            ),
+                          )
                         ],
                       ),
-                    )
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 30),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      StyledButton(
-                          child: const Text('시작하기'),
-                          onPressed: () {
-                            context.pushNamed('learn-page', pathParameters: {
-                              'name': widget.name!,
-                              'id': widget.id!,
-                              'howMuch': howMuchProbs,
-                            });
-                          }),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 30),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            StyledButton(
+                              child: const Text('시작하기'),
+                              onPressed: () {
+                                context.pushNamed(
+                                  'learn-page',
+                                  pathParameters: {
+                                    'name': widget.name!,
+                                    'tag': widget.tag!,
+                                    'id': widget.id!,
+                                    'howMuch': howMuchProbs,
+                                  },
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),

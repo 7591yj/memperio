@@ -2,11 +2,12 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:memperio/src/learn/learn_widgets/problem.dart';
+import 'package:memperio/src/learn/problem.dart';
 
 class LearnPage extends StatefulWidget {
-  const LearnPage({this.name, this.id, this.howMuch, super.key});
+  const LearnPage({this.name, this.tag, this.id, this.howMuch, super.key});
   final String? name;
+  final String? tag;
   final String? id;
   final String? howMuch;
 
@@ -90,6 +91,8 @@ class _LearnPageState extends State<LearnPage> {
                     child: Column(
                       children: [
                         ProblemContainer(
+                          name: widget.name!,
+                          tag: widget.tag!,
                           data: snapshot.data!,
                           currentIndex: 0,
                           progress: 0,

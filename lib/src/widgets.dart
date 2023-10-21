@@ -173,7 +173,7 @@ class StyledContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.deepPurple.shade50,
@@ -236,9 +236,10 @@ class TagContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 8,
-        vertical: 8,
+      padding: const EdgeInsets.only(
+        right: 8,
+        top: 8,
+        bottom: 8,
       ),
       child: Container(
         decoration: BoxDecoration(
@@ -255,6 +256,24 @@ class TagContainer extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class TagList extends StatelessWidget {
+  const TagList({
+    super.key,
+    required this.tagList,
+  });
+
+  final List tagList;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        for (String tag in tagList) ...[TagContainer(tag: tag)]
+      ],
     );
   }
 }

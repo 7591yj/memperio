@@ -39,48 +39,55 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (appState.loggedIn) ...[
-                  const StyledContainer(
-                    title: '리포트',
-                    titleIcon: Icons.workspace_premium_rounded,
-                    subButtonEnable: true,
-                    route: '/report',
-                    content: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Column(
                       children: [
-                        StyledCircularPercentIndicator(
-                          text: '진행도',
-                          percent: 0.8,
+                        const StyledContainer(
+                          title: '리포트',
+                          titleIcon: Icons.workspace_premium_rounded,
+                          subButtonEnable: true,
+                          route: '/report',
+                          content: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              StyledCircularPercentIndicator(
+                                text: '진행도',
+                                percent: 0.8,
+                              ),
+                              SizedBox(
+                                width: 40,
+                              ),
+                              StyledCircularPercentIndicator(
+                                text: '목표',
+                                percent: 0.7,
+                              )
+                            ],
+                          ),
                         ),
-                        SizedBox(
-                          width: 40,
+                        StyledContainer(
+                          title: '학습',
+                          titleIcon: Icons.edit_document,
+                          subButtonEnable: true,
+                          route: '/learn',
+                          content: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                for (int i = 0; i < categories.length; i++) ...[
+                                  LearnCategoryButton(
+                                    name: categories[i].name,
+                                    tag: categories[i].tag,
+                                    icon: Icons.abc,
+                                    id: i,
+                                  )
+                                ],
+                              ],
+                            ),
+                          ),
                         ),
-                        StyledCircularPercentIndicator(
-                          text: '목표',
-                          percent: 0.7,
-                        )
                       ],
-                    ),
-                  ),
-                  StyledContainer(
-                    title: '학습',
-                    titleIcon: Icons.edit_document,
-                    subButtonEnable: true,
-                    route: '/learn',
-                    content: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          for (int i = 0; i < categories.length; i++) ...[
-                            LearnCategoryButton(
-                              name: categories[i].name,
-                              tag: categories[i].tag,
-                              icon: Icons.abc,
-                              id: i,
-                            )
-                          ],
-                        ],
-                      ),
                     ),
                   ),
                 ] else ...[

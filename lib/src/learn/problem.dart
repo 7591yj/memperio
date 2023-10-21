@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:memperio/src/learn/learn_widgets/results_screen.dart';
+import 'package:memperio/src/learn/results_screen.dart';
 import 'package:memperio/src/widgets.dart';
 
 class Problem {
@@ -19,11 +19,15 @@ class Problem {
 class ProblemContainer extends StatefulWidget {
   const ProblemContainer({
     super.key,
+    required this.name,
+    required this.tag,
     required this.data,
     required this.currentIndex,
     required this.progress,
   });
 
+  final String name;
+  final String tag;
   final List<Problem> data;
   final int currentIndex;
   final int progress;
@@ -41,26 +45,24 @@ class _ProblemContainerState extends State<ProblemContainer> {
     inputValues = List.filled(widget.data.length, '');
   }
 
-  void _showResultsScreen(BuildContext context) {
-    print(inputValues);
+  void _showResultsScreen(BuildContext context, String name, String tag) {
     var answers = [];
     for (var data in widget.data) {
       answers.add(data.answer);
     }
-    print(answers);
     // Get list of answers to compare to user inputs
     List<dynamic> result = List.filled(widget.data.length, '');
     for (var i = 0; i < widget.data.length; i++) {
       if (answers[i] == inputValues[i]) {
         result[i] = true;
       } else {
-        result[i] = answers[i];
+        result[i] = {widget.data[i]};
       }
     }
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ResultsScreen(data: result),
+        builder: (context) => ResultsScreen(data: result, name: name, tag: tag),
       ),
     );
   }
@@ -110,6 +112,8 @@ class _ProblemContainerState extends State<ProblemContainer> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => ProblemContainer(
+                            name: widget.name,
+                            tag: widget.tag,
                             data: widget.data,
                             currentIndex: widget.currentIndex + 1,
                             progress: widget.progress + 1,
@@ -117,7 +121,7 @@ class _ProblemContainerState extends State<ProblemContainer> {
                         ),
                       );
                     } else {
-                      _showResultsScreen(context);
+                      _showResultsScreen(context, widget.name, widget.tag);
                     }
                   },
                 ),
