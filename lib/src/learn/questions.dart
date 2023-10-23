@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:memperio/src/learn/results_screen.dart';
 import 'package:memperio/src/widgets.dart';
 
-class Problem {
+class Question {
   String content;
   String answer;
   String from;
   String year;
 
-  Problem({
+  Question({
     this.content = 'temp',
     this.answer = 'temp',
     this.from = 'temp',
@@ -16,28 +16,31 @@ class Problem {
   });
 }
 
-class ProblemContainer extends StatefulWidget {
-  const ProblemContainer({
+class QuestionContainer extends StatefulWidget {
+  const QuestionContainer({
     super.key,
     required this.name,
     required this.tag,
     required this.data,
     required this.currentIndex,
     required this.progress,
+    required this.startedAt,
   });
 
   final String name;
   final String tag;
-  final List<Problem> data;
+  final List<Question> data;
   final int currentIndex;
   final int progress;
+  final String startedAt;
 
   @override
-  State<ProblemContainer> createState() => _ProblemContainerState();
+  State<QuestionContainer> createState() => _QuestionContainerState();
 }
 
-class _ProblemContainerState extends State<ProblemContainer> {
+class _QuestionContainerState extends State<QuestionContainer> {
   late List<String> inputValues;
+  DateTime startedAt = DateTime.now();
 
   @override
   void initState() {
@@ -45,7 +48,13 @@ class _ProblemContainerState extends State<ProblemContainer> {
     inputValues = List.filled(widget.data.length, '');
   }
 
-  void _showResultsScreen(BuildContext context, String name, String tag) {
+  void _showResultsScreen({
+    required BuildContext context,
+    required String name,
+    required String tag,
+    required String startedAt,
+    required DateTime endedAt,
+  }) {
     var answers = [];
     for (var data in widget.data) {
       answers.add(data.answer);
@@ -56,13 +65,18 @@ class _ProblemContainerState extends State<ProblemContainer> {
       if (answers[i] == inputValues[i]) {
         result[i] = true;
       } else {
-        result[i] = {widget.data[i]};
+        result[i] = widget.data[i];
       }
     }
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ResultsScreen(data: result, name: name, tag: tag),
+        builder: (context) => ResultsScreen(
+            data: result,
+            name: name,
+            tag: tag,
+            startedAt: DateTime.parse(startedAt),
+            endedAt: endedAt),
       ),
     );
   }
@@ -111,17 +125,23 @@ class _ProblemContainerState extends State<ProblemContainer> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ProblemContainer(
+                          builder: (context) => QuestionContainer(
                             name: widget.name,
                             tag: widget.tag,
                             data: widget.data,
                             currentIndex: widget.currentIndex + 1,
                             progress: widget.progress + 1,
+                            startedAt: widget.startedAt,
                           ),
                         ),
                       );
                     } else {
-                      _showResultsScreen(context, widget.name, widget.tag);
+                      _showResultsScreen(
+                          context: context,
+                          name: widget.name,
+                          tag: widget.tag,
+                          startedAt: widget.startedAt,
+                          endedAt: DateTime.now());
                     }
                   },
                 ),

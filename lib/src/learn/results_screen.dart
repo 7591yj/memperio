@@ -6,13 +6,16 @@ class ResultsScreen extends StatefulWidget {
   final String name;
   final String tag;
   final List<dynamic> data;
+  final DateTime startedAt;
+  final DateTime endedAt;
 
-  const ResultsScreen({
-    super.key,
-    required this.data,
-    required this.name,
-    required this.tag,
-  });
+  const ResultsScreen(
+      {super.key,
+      required this.data,
+      required this.name,
+      required this.tag,
+      required this.startedAt,
+      required this.endedAt});
 
   @override
   State<ResultsScreen> createState() => _ResultsScreenState();
@@ -20,8 +23,9 @@ class ResultsScreen extends StatefulWidget {
 
 class _ResultsScreenState extends State<ResultsScreen> {
   var tagList = [];
-  int correct = 0;
-  List<dynamic> wrong = [];
+  Duration timeSpent = const Duration();
+  var correct = 0;
+  var wrong = [];
 
   void _resultBuilder() {
     for (var result in widget.data) {
@@ -33,11 +37,11 @@ class _ResultsScreenState extends State<ResultsScreen> {
     }
   }
 
-  void _showReviewPage(BuildContext context) {
+  void _showReviewPage(BuildContext context, List<dynamic> wrong) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const ReviewScreen(),
+        builder: (context) => ReviewScreen(content: wrong),
       ),
     );
   }
@@ -46,6 +50,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
   void initState() {
     super.initState();
     _resultBuilder();
+    timeSpent = widget.endedAt.difference(widget.startedAt);
     tagList = widget.tag.split(',');
   }
 
@@ -65,11 +70,28 @@ class _ResultsScreenState extends State<ResultsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  widget.name,
-                  style: const TextStyle(fontSize: 28),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.name,
+                          style: const TextStyle(fontSize: 28),
+                        ),
+                        TagList(tagList: tagList),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        const Icon(Icons.timer_rounded),
+                        Text(timeSpent.toString()),
+                      ],
+                    ),
+                  ],
                 ),
-                TagList(tagList: tagList),
                 StyledContainer(
                   title: '결과',
                   titleIcon: Icons.check_circle_outline_rounded,
@@ -95,7 +117,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
                 ElevatedButton(
                   child: const Text('틀린 문제 다시보기'),
                   onPressed: () {
-                    _showReviewPage(context);
+                    _showReviewPage(context, wrong);
                   },
                 ),
               ],

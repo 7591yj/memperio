@@ -109,7 +109,7 @@ final _router = GoRouter(
                   );
                 }),
             GoRoute(
-                path: 'page/:name/:tag/:id/:howMuch',
+                path: 'page/:name/:tag/:id/:howMuch/:startedAt',
                 name: 'learn-page',
                 builder: (context, state) {
                   return LearnPage(
@@ -117,6 +117,7 @@ final _router = GoRouter(
                     id: state.pathParameters['id'],
                     tag: state.pathParameters['tag'],
                     howMuch: state.pathParameters['howMuch'],
+                    startedAt: state.pathParameters['startedAt'],
                   );
                 }),
           ],

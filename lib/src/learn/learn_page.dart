@@ -2,14 +2,17 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:memperio/src/learn/problem.dart';
+import 'package:memperio/src/learn/questions.dart';
 
 class LearnPage extends StatefulWidget {
-  const LearnPage({this.name, this.tag, this.id, this.howMuch, super.key});
+  const LearnPage(
+      {this.name, this.tag, this.id, this.howMuch, this.startedAt, super.key});
+
   final String? name;
   final String? tag;
   final String? id;
   final String? howMuch;
+  final String? startedAt;
 
   @override
   State<LearnPage> createState() => _LearnPageState();
@@ -21,14 +24,14 @@ class _LearnPageState extends State<LearnPage> {
   int random = Random().nextInt(4294967295);
   bool submitted = false;
 
-  Future<List<Problem>> getProblemsFromDB() async {
-    List<Problem> probList = [];
+  Future<List<Question>> getProblemsFromDB() async {
+    List<Question> probList = [];
 
     void addToProbList(
         List<QueryDocumentSnapshot<Map<String, dynamic>>> querySnapshotDocs) {
       for (var docSnapshot in querySnapshotDocs) {
         var data = docSnapshot.data();
-        probList.add(Problem(
+        probList.add(Question(
           content: data['content'],
           answer: data['answer'],
           from: data['from'],
@@ -69,7 +72,7 @@ class _LearnPageState extends State<LearnPage> {
 
   @override
   Widget build(BuildContext context) {
-    Future<List<Problem>> problems = getProblemsFromDB();
+    Future<List<Question>> problems = getProblemsFromDB();
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.name!),
@@ -90,12 +93,13 @@ class _LearnPageState extends State<LearnPage> {
                     padding: const EdgeInsets.all(30.0),
                     child: Column(
                       children: [
-                        ProblemContainer(
+                        QuestionContainer(
                           name: widget.name!,
                           tag: widget.tag!,
                           data: snapshot.data!,
                           currentIndex: 0,
                           progress: 0,
+                          startedAt: widget.startedAt!,
                         ),
                       ],
                     ),

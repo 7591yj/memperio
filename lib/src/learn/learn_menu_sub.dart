@@ -20,6 +20,8 @@ class _LearnMenuSubState extends State<LearnMenuSub> {
   String howMuchProbs = '1';
   int size = 1;
 
+  DateTime startedAt = DateTime.now();
+
   @override
   void initState() {
     tagList = widget.tag!.split(',');
@@ -78,6 +80,7 @@ class _LearnMenuSubState extends State<LearnMenuSub> {
                             StyledButton(
                               child: const Text('시작하기'),
                               onPressed: () {
+                                startedAt = DateTime.now();
                                 context.pushNamed(
                                   'learn-page',
                                   pathParameters: {
@@ -85,6 +88,7 @@ class _LearnMenuSubState extends State<LearnMenuSub> {
                                     'tag': widget.tag!,
                                     'id': widget.id!,
                                     'howMuch': howMuchProbs,
+                                    'startedAt': startedAt.toString(),
                                   },
                                 );
                               },
