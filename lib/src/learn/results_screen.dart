@@ -41,7 +41,8 @@ class _ResultsScreenState extends State<ResultsScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ReviewScreen(content: wrong),
+        builder: (context) =>
+            ReviewScreen(content: wrong, timeSpent: timeSpent),
       ),
     );
   }
@@ -83,13 +84,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
                         TagList(tagList: tagList),
                       ],
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        const Icon(Icons.timer_rounded),
-                        Text(timeSpent.toString()),
-                      ],
-                    ),
+                    DurationViewer(timeSpent: timeSpent),
                   ],
                 ),
                 StyledContainer(
@@ -115,7 +110,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
                   ),
                 ),
                 ElevatedButton(
-                  child: const Text('틀린 문제 다시보기'),
+                  child: const Text('틀린 문제 다시 보기'),
                   onPressed: () {
                     _showReviewPage(context, wrong);
                   },

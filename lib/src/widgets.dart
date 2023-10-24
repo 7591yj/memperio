@@ -277,3 +277,23 @@ class TagList extends StatelessWidget {
     );
   }
 }
+
+class DurationViewer extends StatelessWidget {
+  const DurationViewer({
+    super.key,
+    required this.timeSpent,
+  });
+
+  final Duration timeSpent;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        const Icon(Icons.timer_rounded),
+        Text(timeSpent.toString()),
+      ],
+    );
+  }
+}
