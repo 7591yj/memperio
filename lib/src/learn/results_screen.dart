@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:memperio/src/learn/review_page.dart';
 import 'package:memperio/src/widgets.dart';
@@ -22,6 +24,7 @@ class ResultsScreen extends StatefulWidget {
 }
 
 class _ResultsScreenState extends State<ResultsScreen> {
+  final uid = FirebaseAuth.instance.currentUser!.uid;
   var tagList = [];
   Duration timeSpent = const Duration();
   var correct = 0;
@@ -35,6 +38,14 @@ class _ResultsScreenState extends State<ResultsScreen> {
         wrong.add(result);
       }
     }
+  }
+
+  void _postToDB({var timeSpent}) {
+    var db = FirebaseFirestore.instance;
+    db
+        .collection('users')
+        .doc(uid)
+        .update({'timeSpent': FieldValue.increment(timeSpent), 'userId': uid});
   }
 
   void _showReviewPage(BuildContext context, List<dynamic> wrong) {
@@ -52,6 +63,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
     super.initState();
     _resultBuilder();
     timeSpent = widget.endedAt.difference(widget.startedAt);
+    _postToDB(timeSpent: timeSpent.inMilliseconds);
     tagList = widget.tag.split(',');
   }
 

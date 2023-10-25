@@ -6,7 +6,7 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import 'widgets.dart';
 
-class AuthFunc extends StatelessWidget {
+class AuthFunc extends StatefulWidget {
   const AuthFunc({
     super.key,
     required this.loggedIn,
@@ -17,6 +17,28 @@ class AuthFunc extends StatelessWidget {
   final void Function() signOut;
 
   @override
+  State<AuthFunc> createState() => _AuthFuncState();
+}
+
+class _AuthFuncState extends State<AuthFunc> {
+  String userDisplayName = '';
+
+  String _getUserDisplayName() {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      return user.displayName!;
+    } else {
+      return '';
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    userDisplayName = _getUserDisplayName();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -24,7 +46,7 @@ class AuthFunc extends StatelessWidget {
         Expanded(
           flex: 2,
           child: Visibility(
-            visible: loggedIn,
+            visible: widget.loggedIn,
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
               child: UserAvatar(
@@ -35,18 +57,19 @@ class AuthFunc extends StatelessWidget {
         ),
         Expanded(
           flex: 3,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Visibility(
-                visible: loggedIn,
-                child: EditableUserDisplayName(auth: FirebaseAuth.instance),
-              ),
-              Visibility(
-                visible: loggedIn,
-                child: const DDayViewer(),
-              )
-            ],
+          child: Visibility(
+            visible: widget.loggedIn,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  userDisplayName,
+                  style: const TextStyle(fontSize: 18),
+                ),
+                const SizedBox(height: 12),
+                const DDayViewer(),
+              ],
+            ),
           ),
         ),
         Expanded(
@@ -59,13 +82,16 @@ class AuthFunc extends StatelessWidget {
                     const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
                 child: StyledButton(
                   onPressed: () {
-                    !loggedIn ? context.push('/sign-in') : signOut();
+                    !widget.loggedIn
+                        ? context.push('/sign-in')
+                        : widget.signOut();
                   },
-                  child: !loggedIn ? const Text('로그인') : const Text('로그아웃'),
+                  child:
+                      !widget.loggedIn ? const Text('로그인') : const Text('로그아웃'),
                 ),
               ),
               Visibility(
-                visible: loggedIn,
+                visible: widget.loggedIn,
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 20),

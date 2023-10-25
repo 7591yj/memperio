@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -55,6 +56,13 @@ final _router = GoRouter(
                   }
                   if (state is UserCreated) {
                     user.updateDisplayName(user.email!.split('@')[0]);
+                    FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(user.uid)
+                        .set({
+                      'userId': user.uid,
+                      'timeSpent': 0,
+                    });
                   }
                   if (!user.emailVerified) {
                     user.sendEmailVerification();
